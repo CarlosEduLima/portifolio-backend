@@ -1,8 +1,8 @@
 const enviroment_test = {
-    username: 'yjultqjnzvmsrb',
-    password: '14a70ee6938985acdd00de4519bd08919d25f9a3b405fd9fc577a7e4301c2b72',
-    database: 'ddlpvp9s2lj6vc',
-    host: 'ec2-174-129-33-147.compute-1.amazonaws.com',
+    username: "nirujjhqggcltx",
+    password:  "e309d1729ba7f5dae8ed723dd855906eaccceac7ba6d4134a7b669ceba2101f9",
+    database: "d12li4kkg6ot5c",
+    host: "ec2-35-168-54-239.compute-1.amazonaws.com",
     dialect: 'postgres',
     dialectOptions: {
         ssl: true
@@ -31,4 +31,4 @@ const enviroment_local = {
     }
 }
 
-module.exports = process.env.PORT ? enviroment_test : enviroment_local
+module.exports = enviroment_test; 
