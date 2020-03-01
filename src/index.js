@@ -12,6 +12,4 @@ app.use(cors({origin:'https://portifoliocarlos.herokuapp.com/'}));
 app.use(express.json());
 app.use(routes);
 
-const port = process.env.PORT || 8080;
-
-server.listen(port);
+server.listen(process.env.PORT || 8080);
