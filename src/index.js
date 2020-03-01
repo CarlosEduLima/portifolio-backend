@@ -8,7 +8,7 @@ const routes = require('./routes');
 const app = express();
 const server = require('http').Server(app);
 
-app.use(cors('http://localhost:3000'));
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
