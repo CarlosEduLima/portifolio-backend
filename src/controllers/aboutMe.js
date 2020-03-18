@@ -1,8 +1,21 @@
-const AboutMe = require('../database/models/AboutMe');
+const Carlos = require('../database/models/Carlos');
+const Skills = require('../database/models/Skills');
+const Jobs = require('../database/models/Jobs');
+const Education = require('../database/models/Education');
+const Contacts = require('../database/models/Contacts');
 
 module.exports = {
     async index(req, res){
-        const info = await AboutMe.findAll();
+        const info = await Carlos.findOne({
+            where:{
+                id: 1
+            },include: [
+                { model: Skills, as: 'skills' },
+                { model: Jobs, as: 'jobs' },
+                { model: Education, as: 'education' },
+                { model: Contacts, as: 'contacts' },
+            ]
+        });
         if(!info)
         return res.status(404).send({ success: false, message: 'Carlos info not found' });
 
@@ -10,11 +23,11 @@ module.exports = {
     },
     async store(req, res){
         const { location: url = ""} = req.file;
-        const{name, description} = req.body;
-        const info = await AboutMe.create({
-            name: name,
-            description: description,
-            profile_url:url
+        const{address, about_me} = req.body;
+        const info = await Carlos.create({
+            address:address,
+            about_me:about_me,
+            img_url:url
         });
         if(info){
             res.json({success:true, info});
@@ -26,5 +39,30 @@ module.exports = {
             return res.status(400).send({ success: false, message });
         }
         
+    },  
+    async update(req, res) {
+        const { id } = req.params;
+        const { ...datas } = req.body;
+
+        const me = await Carlos.findOne({ where: { id } });
+
+        if (!me) return res.status(404).send({ success: false, message: 'Me wasnt found' });
+
+        if (password) datas.password_hash = encrypter.createHash(password);
+
+        const updatedInfo = await me.update(datas)
+            .then(me => me)
+            .catch(error => error);
+
+        if (updatedInfo.errors) {
+            if (!Array.isArray(updatedInfo.errors)) {
+                return res.status(400).send({ success: false, message: 'Ocorreu um erro' });
+            } else {
+                const message = updatedInfo.errors[0].message;
+                return res.status(400).send({ success: false, message });
+            }
+        }
+
+        res.json({ success: true, message: 'Dados atualizados com sucesso' });
     },
 }
