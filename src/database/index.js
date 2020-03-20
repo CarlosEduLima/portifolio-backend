@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const env ='development';
+const env ='production';
 const config = require(__dirname + '/config/index.json')[env];
 const Carlos = require('./models/Carlos');
 const Adm = require('./models/Adm');

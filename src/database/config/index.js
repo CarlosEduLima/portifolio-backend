@@ -33,4 +33,4 @@ const enviroment_local = {
     }
 }
 
-module.exports = enviroment_local; 
+module.exports = enviroment_test; 
