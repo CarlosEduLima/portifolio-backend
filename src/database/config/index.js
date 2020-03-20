@@ -15,5 +15,22 @@ const enviroment_test = {
         underscoredAll: true
     }
 }
+const enviroment_local = {
+    username: 'postgres',
+    password: '',
+    database: 'portifolio',
+    host: '127.0.0.1',
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: false
+    },
+    operatorsAliases: false,
+    logging: false,
+    define: {
+        timestamps: true,
+        underscored: true,
+        underscoredAll: true
+    }
+}
 
-module.exports = enviroment_test; 
+module.exports = enviroment_local; 

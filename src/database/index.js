@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
-const env ='production';
+const env ='development';
 const config = require(__dirname + '/config/index.json')[env];
 const Carlos = require('./models/Carlos');
+const Adm = require('./models/Adm');
 const AboutPortifolio = require('./models/AboutPortifolio');
 const Contacts = require('./models/Contacts');
 const Education = require('./models/Education');
@@ -14,6 +15,7 @@ if(config.use_env_variable){
   connection = new Sequelize(config.database, config.username, config.password, config);
 }
 Carlos.init(connection);
+Adm.init(connection);
 AboutPortifolio.init(connection);
 Contacts.init(connection);
 Education.init(connection);

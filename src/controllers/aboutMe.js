@@ -1,21 +1,9 @@
 const Carlos = require('../database/models/Carlos');
-const Skills = require('../database/models/Skills');
-const Jobs = require('../database/models/Jobs');
-const Education = require('../database/models/Education');
-const Contacts = require('../database/models/Contacts');
+
 
 module.exports = {
     async index(req, res){
-        const info = await Carlos.findOne({
-            where:{
-                id: 1
-            },include: [
-                { model: Skills, as: 'skills' },
-                { model: Jobs, as: 'jobs' },
-                { model: Education, as: 'education' },
-                { model: Contacts, as: 'contacts' },
-            ]
-        });
+        const info = await Carlos.findAll();
         if(!info)
         return res.status(404).send({ success: false, message: 'Carlos info not found' });
 
@@ -43,12 +31,9 @@ module.exports = {
     async update(req, res) {
         const { id } = req.params;
         const { ...datas } = req.body;
-
         const me = await Carlos.findOne({ where: { id } });
 
         if (!me) return res.status(404).send({ success: false, message: 'Me wasnt found' });
-
-        if (password) datas.password_hash = encrypter.createHash(password);
 
         const updatedInfo = await me.update(datas)
             .then(me => me)
@@ -62,7 +47,6 @@ module.exports = {
                 return res.status(400).send({ success: false, message });
             }
         }
-
         res.json({ success: true, message: 'Dados atualizados com sucesso' });
     },
 }
