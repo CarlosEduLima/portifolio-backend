@@ -3,7 +3,10 @@ const Carlos = require('../database/models/Carlos');
 
 module.exports = {
     async index(req, res){
-        const info = await Carlos.findAll();
+        const info = await Carlos.findOne({
+            where:{
+            id:1
+        }});
         if(!info)
         return res.status(404).send({ success: false, message: 'Carlos info not found' });
 
@@ -34,7 +37,7 @@ module.exports = {
         const me = await Carlos.findOne({ where: { id } });
 
         if (!me) return res.status(404).send({ success: false, message: 'Me wasnt found' });
-
+        console.log(datas);
         const updatedInfo = await me.update(datas)
             .then(me => me)
             .catch(error => error);
