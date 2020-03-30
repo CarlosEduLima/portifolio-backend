@@ -59,7 +59,7 @@ module.exports = {
 
         if (!contact) return res.status(404).send({ success: false, message: 'Contato não foi encontrado' });
 
-        const deletedContact = await contact.destroy();
+        const  deletedContact = await contact.destroy();
 
         if (!deletedContact.length === 0) return res.status(400).send({ success: false, message: 'Ocorreu um erro ao excluir o contato' })
 
