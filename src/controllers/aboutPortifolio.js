@@ -46,6 +46,6 @@ module.exports = {
                 return res.status(400).send({ success: false, message });
             }
         }
-        res.json({ success: true, message: 'Dados atualizados com sucesso' });
+        res.json({ success: true, message: 'Dados atualizados com sucesso' })
     },  
 }
