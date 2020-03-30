@@ -55,11 +55,11 @@ module.exports = {
 
         if (!id) return res.status(406).send({ success: false, message: 'ID do contato não fornecido' });
 
-        const contact = await Contacts.findOne({ where: { id } });
+        const Contact = await Contacts.findOne({ where: { id } });
 
         if (!contact) return res.status(404).send({ success: false, message: 'Contato não foi encontrado' });
 
-        const  deletedContact = await contact.destroy();
+        const  deletedContact = await Contact.destroy();
 
         if (!deletedContact.length === 0) return res.status(400).send({ success: false, message: 'Ocorreu um erro ao excluir o contato' })
 
