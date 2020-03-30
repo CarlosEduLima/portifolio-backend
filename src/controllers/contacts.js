@@ -29,5 +29,40 @@ module.exports = {
             return res.status(400).send({ success: false, message });
         }
         
+    },
+    async update(req, res) {
+        const { id } = req.params;
+        const { ...datas } = req.body;
+        const contact = await Contacts.findOne({ where: { id } });
+
+        if (!contact) return res.status(404).send({ success: false, message: 'Wasnt found' });
+        const updatedcontact = await contact.update(datas)
+            .then(contact => contact)
+            .catch(error => error);
+
+        if (updatedcontact.errors) {
+            if (!Array.isArray(updatedcontact.errors)) {
+                return res.status(400).send({ success: false, message: 'Ocorreu um erro' });
+            } else {
+                const message = updatedcontact.errors[0].message;
+                return res.status(400).send({ success: false, message });
+            }
+        }
+        res.json({ success: true, message: 'Dados atualizados com sucesso' });
     },  
+    async delete(req, res) {
+        const { id } = req.params;
+
+        if (!id) return res.status(406).send({ success: false, message: 'ID do contato não fornecido' });
+
+        const contact = await Contacts.findOne({ where: { id } });
+
+        if (!contact) return res.status(404).send({ success: false, message: 'Contato não foi encontrado' });
+
+        const deletedContact = await user.destroy();
+
+        if (!deletedContact.length === 0) return res.status(400).send({ success: false, message: 'Ocorreu um erro ao excluir o contato' })
+
+        return res.json({ success: true, message: 'Usuário excluído com sucesso' });
+    },
 }

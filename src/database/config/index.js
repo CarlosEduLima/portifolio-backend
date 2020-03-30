@@ -1,6 +1,6 @@
-const enviroment_test = {
+const production_enviroment = {
     username: "nirujjhqggcltx",
-    password:  "e309d1729ba7f5dae8ed723dd855906eaccceac7ba6d4134a7b669ceba2101f9",
+    password: "e309d1729ba7f5dae8ed723dd855906eaccceac7ba6d4134a7b669ceba2101f9",
     database: "d12li4kkg6ot5c",
     host: "ec2-35-168-54-239.compute-1.amazonaws.com",
     dialect: 'postgres',
@@ -15,7 +15,7 @@ const enviroment_test = {
         underscoredAll: true
     }
 }
-const enviroment_local = {
+const local_enviroment = {
     username: 'postgres',
     password: '',
     database: 'portifolio',
@@ -33,4 +33,4 @@ const enviroment_local = {
     }
 }
 
-module.exports = enviroment_test; 
+module.exports = production_enviroment; 

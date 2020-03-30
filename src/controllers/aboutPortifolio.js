@@ -27,5 +27,25 @@ module.exports = {
             return res.status(400).send({ success: false, message });
         }
         
+    },
+    async update(req, res) {
+        const { id } = req.params;
+        const { ...datas } = req.body;
+        const about_portifolio = await AboutPortifolio.findOne({ where: { id } });
+
+        if (!about_portifolio) return res.status(404).send({ success: false, message: 'Wasnt found' });
+        const updatedAboutPortifolio = await about_portifolio.update(datas)
+            .then(about_portifolio => about_portifolio)
+            .catch(error => error);
+
+        if (updatedAboutPortifolio.errors) {
+            if (!Array.isArray(updatedAboutPortifolio.errors)) {
+                return res.status(400).send({ success: false, message: 'Ocorreu um erro' });
+            } else {
+                const message = updatedAboutPortifolio.errors[0].message;
+                return res.status(400).send({ success: false, message });
+            }
+        }
+        res.json({ success: true, message: 'Dados atualizados com sucesso' });
     },  
 }

@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
-const env ='production';
-const config = require(__dirname + '/config/index.json')[env];
+const config = require('./config/index');
 const Carlos = require('./models/Carlos');
 const Adm = require('./models/Adm');
 const AboutPortifolio = require('./models/AboutPortifolio');
@@ -8,12 +7,9 @@ const Contacts = require('./models/Contacts');
 const Education = require('./models/Education');
 const Jobs = require('./models/Jobs');
 const Skills = require('./models/Skills');
-let connection;
-if(config.use_env_variable){
-  connection = new Sequelize(process.env[config.use_env_variable], config);
-}else{
-  connection = new Sequelize(config.database, config.username, config.password, config);
-}
+
+const connection = new Sequelize(config.database, config.username, config.password, config);
+
 Carlos.init(connection);
 Adm.init(connection);
 AboutPortifolio.init(connection);
