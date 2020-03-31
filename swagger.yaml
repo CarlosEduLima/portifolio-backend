@@ -1,0 +1,826 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Sapphire RestAPI"
+host: "sapphire-backend.herokuapp.com"
+basePath: "/"
+schemes:
+- "https"
+- "http"
+paths:
+  /users:
+    get: 
+      tags: 
+      - "users"
+      summary: "Consultar usuários"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Sucesso na operação"
+          schema: 
+            type: "object"
+            properties: 
+              success:
+                type: boolean
+                example: true
+              users:
+                type: "array"
+                items: 
+                  $ref: "#/definitions/User"
+    post:
+      tags:
+      - "users"
+      summary: "Adiciona um novo usuário."
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Dados necessários para o cadastramento do usuário"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema: 
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message: 
+                type: "string"
+                example: "Usuário cadastrado com sucesso"
+        405:
+          description: "Dado fornecido não está em conformidade com os critérios do servidor."
+  /users/{id}:
+    get: 
+      tags: 
+      - "users"
+      summary: "Consultar usuários pelo ID"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "ID necessário para a consulta do usuário"
+      responses:
+        200:
+          description: "Dados atualizados com sucesso."
+          schema: 
+            type: "object"
+            properties: 
+              success:
+                type: boolean
+                example: true
+              user:
+                $ref: "#/definitions/User"
+        404:
+          description: "Usuário inexistente"
+        400:
+          description: "Nenhum ID fornecido"
+    put:
+      tags:
+      - "users"
+      summary: "Alterar os dados de um usuário existente"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Dados necessários para a atualização do usuário"
+      - name: "body"
+        in: "body"
+        description: "Dados necessários para a atualização do usuário"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            success: 
+              type: boolean
+              example: true
+            user:
+              $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Dados atualizados com sucesso."
+        400:
+          description: "Nenhum ID fornecido"
+        404:
+          description: "Usuário inexistente"
+        405:
+          description: "Dado fornecido não está em conformidade com os critérios do servidor."
+    delete:
+      tags:
+      - "users"
+      summary: "Excluir o usuário permanentemente"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID do usuário a ser movido a lixeira"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+        400:
+          description: "Nenhum ID fornecido"
+        404: 
+          description: "Usuário inexistente"
+  /users/trash:
+    get: 
+      tags: 
+      - "users"
+      summary: "Consultar usuários da lixeira"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema: 
+            type: "object"
+            properties: 
+              success:
+                type: boolean
+                example: true
+              users:
+                type: "array"
+                items:
+                  $ref: "#/definitions/User"
+    delete:
+      tags:
+      - "users"
+      summary: "Excluir os usuários da lixeira permanentemente"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message: 
+                type: "string"
+                example: "Usuários removidos com sucesso"
+  /priorities:
+    get:
+      tags:
+      - "priorities"
+      summary: "Consultar prioridades"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              properties:
+                type: "array"
+                items: 
+                  $ref: "#/definitions/Priority"
+    post:
+      tags:
+      - "priorities"
+      summary: "Cadastrar prioridade"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Prioridade cadastrada com sucesso"
+        405:
+          description: "Dados fornecido não estão em conformidade com os critérios do servidor."
+  /priorities/{id}:
+    get:
+      tags:
+      - "priorities"
+      summary: "Consultar prioridade pelo ID"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID da prioridade a ser consultada"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              priority:
+                $ref: "#/definitions/Priority"
+        404:
+          description: "Prioridade inexistente"
+        400: 
+          description: "Nenhum ID fornecido"
+    put:
+      tags:
+      - "priorities"
+      summary: "Alterar prioridade"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID da prioridade a ser consultada"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Prioridade cadastrada com sucesso"
+              priority: 
+                $ref: "#/definitions/Priority"
+        400: 
+          description: "Nenhum ID fornecido"
+        405:
+          description: "Dados fornecido não estão em conformidade com os critérios do servidor."
+    delete:
+      tags:
+      - "priorities"
+      summary: "Remove uma prioridade permanentemente"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID da prioridade a ser removida"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200: 
+          description: "Operação executada com sucesso."
+        400:
+          description: "Nenhum ID fornecido"
+        404:
+          description: "Prioridade inexistente"
+  /priorities/trash:
+    get:
+      tags:
+      - "priorities"
+      summary: "Consulta prioridades da lixeira"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success: 
+                type: boolean
+                example: true
+              priorities:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Priority"
+    delete:
+      tags:
+      - "priorities"
+      summary: "Remove todos as prioridades da lixeira permanentemente"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success: 
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Prioridades removidas com sucesso."
+  /tickets:
+    get:
+      tags:
+      - "tickets"
+      summary: "Consultar tickets"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties: 
+              success:
+                type: boolean
+                example: true
+              tickets:
+                type: "array"
+                items: 
+                  $ref: "#/definitions/Ticket"
+    post:
+      tags:
+      - "tickets"
+      summary: "Cadastrar ticket"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Dados necessários para o cadastramento do ticket"
+        required: true
+        schema:
+          $ref: "#/definitions/Ticket"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties: 
+              success:
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Ticket cadastrado com sucesso"
+        404: 
+          description: "Prioridade fornecidade inexistente"
+        400:
+          description: "Campo 'prioridade' não informado"
+        405:
+          description: "Dado fornecido não está em conformidade com os critérios do servidor."
+  /tickets/{id}:
+    get:
+      tags:
+      - "tickets"
+      summary: "Consultar ticket por ID"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID do ticket a ser consultado"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              ticket:
+                $ref: "#/definitions/Ticket"
+        400:
+          description: "Nenhum ID fornecido"
+        404:
+          description: "Ticket inexistente"
+    put:
+      tags:
+      - "tickets"
+      summary: "Alterar ticket por ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID do ticket a ser alterado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Dados do ticket a alterar"
+        required: true
+        schema: 
+          $ref: "#/definitions/Ticket"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              ticket:
+                $ref: "#/definitions/Ticket"
+        400:
+          description: "Nenhum ID fornecido"
+        404:
+          description: "Ticket inexistente"
+    delete:
+      tags:
+      - "tickets"
+      summary: "Remover ticket por ID"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID do ticket a ser removido"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operação executada com sucesso."
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Ticket removido com sucesso."
+        400:
+          description: "Nenhum ID fornecido"
+        404:
+          description: "Ticket inexistente"
+  /tickets/trash:
+    get:
+        tags:
+        - "tickets"
+        summary: "Consultar tickets da lixeira"
+        produces:
+        - "application/json"
+        responses:
+          200:
+            description: "Operação executada com sucesso."
+            schema:
+              type: "object"
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                tickets:
+                  type: "array"
+                  items:
+                    $ref: "#/definitions/Ticket"
+    delete:
+        tags:
+        - "tickets"
+        summary: "Remover tickets da lixeira permanentemente"
+        produces:
+        - "application/json"
+        responses:
+          200:
+            description: "Operação executada com sucesso."
+            schema:
+              type: "object"
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message: 
+                  type: "string"
+                  example: "Tickets removidos com sucesso."
+  /demands:
+    get:
+        tags:
+        - "demands"
+        summary: "Consultar demandas"
+        description: "Só pode ser feito por um usuário logado."
+        produces:
+        - "application/json"
+        responses:
+          200:
+            description: "Operação executada com sucesso"
+            schema:
+              type: "object"
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                demands:
+                  type: "array"
+                  items: 
+                    $ref: "#/definitions/Demand"
+    post:
+      tags:
+      - "demands"
+      summary: "Cadastrar demanda"
+      description: "Só pode ser feito por um usuário logado."
+      consumes: 
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Dados da demanda"
+        required: true
+        schema:
+          $ref: "#/definitions/Demand"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: "string"
+                example: "Demanda cadastrada com sucesso."
+        405:
+          description: "Dados fornecido não estão em conformidade com os critérios do servidor."
+  /demands/{id}:
+    get:
+      tags:
+      - "demands"
+      summary: "Consultar demanda por ID"
+      description: "Só pode ser feito por um usuário logado."
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID da demanda a ser consultada"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              demand:
+                $ref: "#/definitions/Demand"
+        404:
+          description: "Demanda inexistente"
+        400:
+          description: "Nenhum ID fornecido"
+    put:
+      tags:
+      - "demands"
+      summary: "Alterar demanda por ID"
+      description: "Só pode ser feito por um usuário logado."
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID da demanda a ser alterada"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: 'body'
+        description: "Dados da demanda serem atualizados"
+        required: true
+        schema: 
+          $ref: "#/definitions/Demand"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message: 
+                type: "string"
+                example: "Dados atualizados com sucesso"
+        404:
+          description: "Demanda inexistente"
+        400:
+          description: "Nenhum ID fornecido"
+        405:
+          description: "Dados fornecido não estão em conformidade com os critérios do servidor."
+    delete:
+      tags:
+      - "demands"
+      summary: "Remover demanda por ID"
+      description: "Só pode ser feito por um usuário logado."
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID da demanda a ser removida"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message: 
+                type: "string"
+                example: "Demanda removida com sucesso"
+        404:
+          description: "Demanda inexistente"
+        400:
+          description: "Nenhum ID fornecido"
+  /demands/trash:
+    get:
+      tags:
+      - "demands"
+      summary: "Consultar demandas da lixeira"
+      description: "Só pode ser feito por um usuário logado."
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              demands:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Demand"
+    delete:
+      tags:
+      - "demands"
+      summary: "Remover demandas da lixeira permanentemente"
+      description: "Só pode ser feito por um usuário logado."
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Operação executada com sucesso"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: boolean
+                example: true
+              message: 
+                type: "string"
+                example: "Lixeira esvaziada com sucesso."
+securityDefinitions:
+  user_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  User:
+    type: "object"
+    required:
+    - "name"
+    - "email"
+    - "password"
+    - "birth_date"
+    properties:
+      name:
+        type: "string"
+        example: "Nome do usuario"
+      email:
+        type: "string"
+        example: "user@example.com"
+      password:
+        type: "string"
+        example: "password123"
+      deleted:
+        type: "boolean"
+        default: false
+        example: false
+      birth_date:
+        type: "string"
+        example: "1997-05-01T00:00:00.000Z"
+    xml:
+      name: "User"
+  Priority:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Nome da prioridade"
+      deleted:
+        type: "boolean"
+        default: false
+        example: false
+    xml:
+      name: "Priority"
+  Ticket:
+    type: "object"
+    required:
+    - "priority_id"
+    - "title"
+    - "destinatary"
+    - "text"
+    properties:
+      priority_id:
+        type: "integer"
+        example: 1
+      title:
+        type: "string"
+        example: "Titulo do ticket"
+      destinatary:
+        type: "string"
+        example: "Nome do destinatário"
+      text: 
+        type: "string"
+        example: "Descrição do ticket"
+      deleted:
+        type: boolean
+        example: false
+        default: false
+    xml:
+      name: "Ticket"
+  Demand:
+    type: "object"
+    required:
+    - "demandant_id"
+    - "topic"
+    - "description"
+    properties:
+      demandant_id:
+        type: "integer"
+        example: 1
+      topic:
+        type: "string"
+        example: "Assunto da demanda"
+      description:
+        type: "string"
+        example: "Descrição da demanda"
+      deleted:
+        type: boolean
+        default: false
+    xml:
+      name: "Demand"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

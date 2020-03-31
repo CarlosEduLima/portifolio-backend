@@ -14,7 +14,7 @@ const AdmController = require('./controllers/adm');
 const routes = express.Router();
 const upload = multer(uploadConfig);
 
-routes.get('/aboutme', AboutMeController.index);
+routes.get('/aboutme/:id', AboutMeController.index);
 routes.post('/aboutme', upload.single('filename'), AboutMeController.store);
 routes.put('/aboutme/:id', AboutMeController.update);
 

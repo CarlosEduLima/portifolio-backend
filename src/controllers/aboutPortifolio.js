@@ -2,9 +2,10 @@ const AboutPortifolio = require('../database/models/AboutPortifolio');
 
 module.exports = {
     async index(req, res){
+        const {id} = req.params;
         const info = await AboutPortifolio.findAll({
             where:{
-                id: 1
+                id: id
             }
         });
         if(!info)

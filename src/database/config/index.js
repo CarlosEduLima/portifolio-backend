@@ -1,8 +1,8 @@
 const production_enviroment = {
-    username: "nirujjhqggcltx",
-    password: "e309d1729ba7f5dae8ed723dd855906eaccceac7ba6d4134a7b669ceba2101f9",
-    database: "d12li4kkg6ot5c",
-    host: "ec2-35-168-54-239.compute-1.amazonaws.com",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
     dialect: 'postgres',
     dialectOptions: {
         ssl: true
@@ -33,4 +33,4 @@ const local_enviroment = {
     }
 }
 
-module.exports = production_enviroment; 
+module.exports = local_enviroment; 
